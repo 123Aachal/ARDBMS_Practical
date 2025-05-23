@@ -1,0 +1,86 @@
+
+1 Create the Package Specification
+CREATE OR REPLACE PACKAGE student_pkg AS
+-- Procedure to insert a student
+PROCEDURE insert_student(p_id NUMBER, p_name VARCHAR2, p_age NUMBER, p_course VARCHAR2);
+-- Procedure to retrieve student details
+ PROCEDURE get_student(p_id NUMBER);
+-- Procedure to update student details
+PROCEDURE update_student(p_id NUMBER, p_name VARCHAR2, p_age NUMBER, p_course VARCHAR2);
+-- Procedure to delete a student 
+PROCEDURE delete_student(p_id NUMBER);
+END student_pkg;
+/ 
+
+2 Create the Package Body
+CREATE OR REPLACE PACKAGE BODY student_pkg AS
+-- Insert student details
+ 
+PROCEDURE insert_student(p_id NUMBER, p_name VARCHAR2, p_age NUMBER, p_course VARCHAR2) IS
+BEGIN
+INSERT INTO student (student_id, student_name, age, course) VALUES (p_id, p_name, p_age, p_course);
+COMMIT;
+DBMS_OUTPUT.PUT_LINE('Student inserted successfully.'); 
+END insert_student;
+-- Retrieve student details
+PROCEDURE get_student(p_id NUMBER) IS v_name student.student_name%TYPE; v_age student.age%TYPE;
+v_course student.course%TYPE; 
+BEGIN
+SELECT student_name, age, course INTO v_name, v_age, v_course
+ FROM student
+WHERE student_id = p_id;
+ DBMS_OUTPUT.PUT_LINE('Student Name: ' || v_name); DBMS_OUTPUT.PUT_LINE('Age: ' || v_age); DBMS_OUTPUT.PUT_LINE('Course: ' || v_course);
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+DBMS_OUTPUT.PUT_LINE('Student not found.'); 
+END get_student;
+-- Update student details
+PROCEDURE update_student(p_id NUMBER, p_name VARCHAR2, p_age NUMBER, p_course VARCHAR2) IS
+ 
+BEGIN
+UPDATE student
+SET student_name = p_name, age = p_age, course = p_course WHERE student_id = p_id;
+IF SQL%ROWCOUNT = 0 THEN
+DBMS_OUTPUT.PUT_LINE('No student found with the given ID.'); 
+ELSE
+COMMIT;
+DBMS_OUTPUT.PUT_LINE('Student updated successfully.');
+ END IF;
+END update_student;
+-- Delete a student record
+PROCEDURE delete_student(p_id NUMBER) IS BEGIN
+DELETE FROM student WHERE student_id = p_id; 
+IF SQL%ROWCOUNT = 0 THEN
+DBMS_OUTPUT.PUT_LINE('No student found with the given ID.'); 
+ELSE
+COMMIT;
+DBMS_OUTPUT.PUT_LINE('Student deleted successfully.'); 
+END IF;
+END delete_student; 
+END student_pkg;
+/
+
+--Test package
+-- Insert a student 
+BEGIN
+student_pkg.insert_student(1, 'John Doe', 22, 'Computer Science');
+ END;
+/ 
+
+-- Retrieve student details 
+BEGIN
+student_pkg.get_student(1);
+ END;
+/ 
+
+-- Update student details 
+BEGIN
+student_pkg.update_student(1, 'John Smith', 23, 'Information Technology'); 
+END;
+/ 
+
+-- Delete a student
+ BEGIN
+student_pkg.delete_student(1); 
+END;
+/ 

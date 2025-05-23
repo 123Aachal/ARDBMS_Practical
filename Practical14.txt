@@ -1,0 +1,38 @@
+DECLARE
+-- User-Defined Exception 
+ex_salary_too_low EXCEPTION;
+PRAGMA EXCEPTION_INIT(ex_salary_too_low, -20001);
+-- Variables
+v_salary NUMBER := 8000; -- Change values to test different cases 
+v_divide NUMBER;
+BEGIN
+
+-- Built-in Exception: ZERO_DIVIDE (Triggers First)
+
+BEGIN
+v_divide := 10 / 0; -- Causes ORA-01476 (division by zero)
+ EXCEPTION
+WHEN ZERO_DIVIDE THEN
+DBMS_OUTPUT.PUT_LINE('Built-in Exception: Division by zero occurred.');
+ 
+END;
+
+-- User-Defined Exception: Salary Too Low (Triggers Second)
+
+IF v_salary < 10000 THEN
+RAISE ex_salary_too_low; -- Manually raising user-defined exception
+ END IF;
+
+-- Raise_Application_Error: Custom Business Rule (Triggers Third)
+
+IF v_salary > 50000 THEN
+RAISE_APPLICATION_ERROR(-20002, 'Salary cannot exceed 50,000.'); 
+END IF;
+DBMS_OUTPUT.PUT_LINE('Salary is within the valid range.'); 
+EXCEPTION
+WHEN ex_salary_too_low THEN
+DBMS_OUTPUT.PUT_LINE('User-Defined Exception: Salary is too low!'); 
+WHEN OTHERS THEN
+DBMS_OUTPUT.PUT_LINE('Some other error occurred: ' || SQLERRM); 
+END;
+/ 

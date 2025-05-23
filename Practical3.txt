@@ -1,0 +1,36 @@
+-- STEP 1: CREATE THE DEPARTMENT TABLE
+ CREATE TABLE DEPARTMENT (
+DeptNo INT PRIMARY KEY, -- Department Number (Primary Key) 
+DeptName VARCHAR(30),	-- Department Name
+Location VARCHAR(30)	-- Location of the Department
+); 
+
+-- STEP 2: ADD A NEW COLUMN "DESIGNATION" TO THE TABLE 
+ALTER TABLE DEPARTMENT ADD Designation VARCHAR(50); 
+
+-- STEP 3: INSERT VALUES INTO THE DEPARTMENT TABLE
+INSERT INTO DEPARTMENT (DeptNo, DeptName, Location, Designation) VALUES (1, 'HR', 'New York', 'Manager');
+INSERT INTO DEPARTMENT (DeptNo, DeptName, Location, Designation) VALUES (2, 'Finance', 'London', 'Accountant');
+INSERT INTO DEPARTMENT (DeptNo, DeptName, Location, Designation) VALUES (3, 'IT', 'San Francisco', 'Developer');
+INSERT INTO DEPARTMENT (DeptNo, DeptName, Location, Designation) VALUES (4, 'Sales', 'Los Angeles', 'Sales Executive');
+VALUES (5, 'Marketing', 'Chicago', 'Marketing Manager');
+INSERT INTO DEPARTMENT (DeptNo, DeptName, Location, Designation) VALUES (6, 'Operations', 'Houston', 'Operations Head');
+INSERT INTO DEPARTMENT (DeptNo, DeptName, Location, Designation) VALUES (7, 'Customer Service', 'Miami', 'Customer Support Lead'); INSERT INTO DEPARTMENT (DeptNo, DeptName, Location, Designation) VALUES (8, 'R&D', 'Seattle', 'Research Scientist');
+INSERT INTO DEPARTMENT (DeptNo, DeptName, Location, Designation) VALUES (9, 'Administration', 'Washington DC', 'Admin Head');
+
+-- STEP 4: LIST RECORDS GROUPED BY DEPTNO
+SELECT DeptNo, DeptName, Location, Designation
+ 
+FROM DEPARTMENT
+GROUP BY DeptNo, DeptName, Location, Designation; 
+
+-- STEP 5: UPDATE RECORD WHERE DEPTNO IS 9 
+UPDATE DEPARTMENT
+SET Location = 'Chicago', Designation = 'Senior Manager' WHERE DeptNo = 9;
+
+-- STEP 6: DELETE DATA FROM A SPECIFIC COLUMN (SET TO NULL) 
+UPDATE DEPARTMENT
+SET Designation = NULL WHERE DeptNo = 2;
+
+-- STEP 7: DROP THE COLUMN "DESIGNATION" FROM THE TABLE
+ ALTER TABLE DEPARTMENT DROP COLUMN Designation; 

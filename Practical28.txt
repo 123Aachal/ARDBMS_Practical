@@ -1,0 +1,26 @@
+--Step 1: Create the Procedure
+CREATE OR REPLACE PROCEDURE Find_Factorial( num IN NUMBER,
+fact OUT NUMBER
+) AS
+result NUMBER := 1; 
+i NUMBER;
+BEGIN
+IF num < 0 THEN
+fact := NULL; 
+ELSE
+FOR i IN 1..num LOOP
+result := result * i; 
+END LOOP;
+fact := result;
+ END IF;
+END;
+/
+--Step 2: Call the Procedure DECLARE
+number_input NUMBER := 5; 
+factorial_result NUMBER;
+BEGIN
+Find_Factorial(number_input, factorial_result);
+ 
+DBMS_OUTPUT.PUT_LINE('Factorial of ' || number_input || ' is ' || factorial_result);
+END;
+/ 

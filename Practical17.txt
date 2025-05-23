@@ -1,0 +1,52 @@
+
+--Use it if table is already exist
+DROP TABLE employees CASCADE CONSTRAINTS;
+
+
+-- Step 1: Create the Employees Table CREATE TABLE employees (
+employee_id NUMBER PRIMARY KEY,
+ employee_name VARCHAR2(100), 
+salary NUMBER(10,2)
+);
+--Step 2: Insert Sample Data
+INSERT INTO employees (employee_id, employee_name, salary) VALUES (101, 'John Doe', 60000);
+INSERT INTO employees (employee_id, employee_name, salary) VALUES (102, 'Jane Smith', 45000);
+INSERT INTO employees (employee_id, employee_name, salary) VALUES (103, 'Alice Brown', 75000);
+INSERT INTO employees (employee_id, employee_name, salary) VALUES (104, 'Bob Johnson', 30000);
+INSERT INTO employees (employee_id, employee_name, salary) VALUES (105, 'Charlie Davis', 90000);
+COMMIT;
+
+--Step 3: PL/SQL Block to Calculate Bonus Using Cursor
+ 
+DECLARE
+-- Declare a cursor to select employees with salary > 50,000 
+CURSOR emp_cursor IS
+SELECT employee_id, employee_name, salary 
+FROM employees
+WHERE salary > 50000;
+-- Variables to hold cursor values 
+v_employee_id employees.employee_id%TYPE;
+v_employee_name employees.employee_name%TYPE;
+ v_salary employees.salary%TYPE;
+v_bonus NUMBER(10,2); 
+BEGIN
+-- Open the cursor 
+OPEN emp_cursor; 
+LOOP
+-- Fetch data from cursor into variables
+FETCH emp_cursor INTO v_employee_id, v_employee_name, v_salary;
+-- Exit the loop when no more rows are found 
+EXIT WHEN emp_cursor%NOTFOUND;
+-- Calculate 10% bonus
+ v_bonus := v_salary * 0.10;
+-- Display employee details and calculated bonus
+ DBMS_OUTPUT.PUT_LINE('Employee ID: ' || v_employee_id ||
+', Name: ' || v_employee_name || 
+', Salary: ' || v_salary ||
+', Bonus: ' || v_bonus);
+ 
+END LOOP;
+-- Close the cursor
+ CLOSE emp_cursor;
+END;
+/ 

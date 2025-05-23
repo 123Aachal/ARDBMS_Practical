@@ -1,0 +1,46 @@
+-- 1 CREATE EMPLOYEE TABLE
+CREATE TABLE Employee (
+emp_no NUMBER PRIMARY KEY,		-- Unique employee number emp_name VARCHAR2(100) NOT NULL,			-- Employee name (Not NULL) street VARCHAR2(100) NOT NULL,	-- Street address (Not NULL)
+city VARCHAR2(50) NOT NULL	-- City (Not NULL)
+); 
+
+-- 2 CREATE WORKS TABLE (Stores Employee's Job Information) CREATE TABLE Works (
+emp_no NUMBER,	-- Employee number (Foreign Key) company_name VARCHAR2(100) NOT NULL,	-- Company name (Not NULL) joining_date DATE NOT NULL,		-- Joining date (Not NULL)
+designation VARCHAR2(50) NOT NULL,		-- Designation (Not NULL) salary NUMBER(10, 2) NOT NULL,	-- Salary (Not NULL)
+PRIMARY KEY (emp_no, company_name),	-- Composite Primary Key FOREIGN KEY (emp_no) REFERENCES Employee(emp_no)
+ 
+); 
+
+-- 3 CREATE COMPANY TABLE (Stores Company's City Information) CREATE TABLE Company (
+emp_no NUMBER,	-- Employee number (Foreign Key) city VARCHAR2(50) NOT NULL,		-- City (Not NULL)
+PRIMARY KEY (emp_no),
+FOREIGN KEY (emp_no) REFERENCES Employee(emp_no)
+); 
+
+-- 4 CREATE MANAGES TABLE (Stores Manager Details) CREATE TABLE Manages (
+emp_no NUMBER,	-- Employee number (Foreign Key) manager_name VARCHAR2(100) NOT NULL,	-- Manager name (Not NULL) mang_no NUMBER NOT NULL,		-- Manager number (Not NULL) PRIMARY KEY (emp_no),
+ 
+FOREIGN KEY (emp_no) REFERENCES Employee(emp_no)
+);
+
+
+-- 5 INSERT RECORDS INTO EMPLOYEE TABLE
+INSERT INTO Employee (emp_no, emp_name, street, city) VALUES (1, 'John Doe', '123 Elm St', 'New York');
+INSERT INTO Employee (emp_no, emp_name, street, city) VALUES (2, 'Jane Smith', '456 Oak St', 'Chicago');
+
+
+-- 6 INSERT RECORDS INTO WORKS TABLE
+INSERT INTO Works (emp_no, company_name, joining_date, designation, salary) VALUES (1, 'ABC Corp', TO_DATE('2023-01-01', 'YYYY-MM-DD'),
+'Software Engineer', 85000);
+INSERT INTO Works (emp_no, company_name, joining_date, designation, salary) VALUES (2, 'XYZ Ltd', TO_DATE('2022-06-15', 'YYYY-MM-DD'), 'Data
+Analyst', 75000);
+
+
+-- 7 INSERT RECORDS INTO COMPANY TABLE
+INSERT INTO Company (emp_no, city) VALUES (1, 'New York'); INSERT INTO Company (emp_no, city) VALUES (2, 'Chicago'); 
+
+-- 8 INSERT RECORDS INTO MANAGES TABLE
+INSERT INTO Manages (emp_no, manager_name, mang_no) VALUES (1, 'Sarah Johnson', 101);
+INSERT INTO Manages (emp_no, manager_name, mang_no) VALUES (2, 'Michael Brown', 102);
+
+

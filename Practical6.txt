@@ -1,0 +1,51 @@
+-- 1: Create the Employee Table CREATE TABLE Employee (
+emp_no NUMBER PRIMARY KEY, 
+emp_name VARCHAR2(100) NOT NULL,
+join_date DATE NOT NULL, 
+designation VARCHAR2(50) NOT NULL
+);
+-- 2: Insert Sample Data
+INSERT INTO Employee (emp_no, emp_name, join_date, designation) VALUES (1, 'John Doe', TO_DATE('2022-01-10', 'YYYY-MM-DD'), 'Software Engineer');
+INSERT INTO Employee (emp_no, emp_name, join_date, designation) VALUES (2, 'Jane Smith', TO_DATE('2021-06-15', 'YYYY-MM-DD'), 'Data Analyst');
+INSERT INTO Employee (emp_no, emp_name, join_date, designation) VALUES (3, 'Mark Johnson', TO_DATE('2020-09-25', 'YYYY-MM-DD'), 'HR Manager'); COMMIT;
+--3: Create the Stored Procedure
+CREATE OR REPLACE PROCEDURE get_employee_details (
+ emp_number IN NUMBER,
+emp_name OUT VARCHAR2, 
+join_date OUT DATE, 
+designation OUT VARCHAR2
+) IS
+BEGIN
+ 
+-- Fetch employee details based on the given employee number 
+SELECT emp_name, join_date, designation
+INTO emp_name, join_date, designation FROM Employee
+WHERE emp_no = emp_number; 
+EXCEPTION
+WHEN NO_DATA_FOUND THEN
+emp_name := 'Not Found'; 
+join_date := NULL; 
+designation := 'Not Found';
+WHEN OTHERS THEN
+emp_name := 'Error'; 
+join_date := NULL; 
+designation := 'Error';
+END get_employee_details;
+/ 
+
+--4: Run PL/SQL Block to Get Employee Details DECLARE
+v_emp_no NUMBER;
+ 
+v_emp_name VARCHAR2(100); 
+v_join_date DATE;
+ v_designation VARCHAR2(50);
+BEGIN
+-- Assign Employee Number (Change Manually or Use SQL*Plus for Input)
+ v_emp_no := 1; -- Change this number to test different employees
+-- Call the Procedure
+get_employee_details(v_emp_no, v_emp_name, v_join_date, v_designation);
+-- Display Output
+DBMS_OUTPUT.PUT_LINE('Employee Name: ' || v_emp_name); DBMS_OUTPUT.PUT_LINE('Join Date: ' || TO_CHAR(v_join_date, 'YYYY-MM-
+DD'));
+DBMS_OUTPUT.PUT_LINE('Designation: ' || v_designation); END;
+/ 

@@ -1,0 +1,33 @@
+--Use it if table already exist DROP TABLE employees;
+
+--Step 1: Create the Table (if not already created) 
+CREATE TABLE employees (
+employee_id NUMBER PRIMARY KEY,
+ employee_name VARCHAR2(100), 
+salary NUMBER(10,2)
+);
+
+--Step 2: Insert Sample Data
+INSERT INTO employees VALUES (1, 'John Doe', 50000); 
+INSERT INTO employees VALUES (2, 'Jane Smith', 60000);
+ INSERT INTO employees VALUES (3, 'Alice Johnson', 55000); 
+COMMIT;
+
+--Step 3: PL/SQL Block to Display Employee Details Using Explicit Cursor
+ DECLARE
+CURSOR emp_cursor IS
+SELECT employee_id, employee_name, salary FROM employees;
+ v_emp_id employees.employee_id%TYPE;
+v_emp_name employees.employee_name%TYPE;
+ v_salary employees.salary%TYPE;
+BEGIN
+OPEN emp_cursor; 
+LOOP
+ 
+FETCH emp_cursor INTO v_emp_id, v_emp_name, v_salary; 
+EXIT WHEN emp_cursor%NOTFOUND;
+DBMS_OUTPUT.PUT_LINE('ID: ' || v_emp_id || ' | Name: ' || v_emp_name || ' | Salary: ' || v_salary);
+END LOOP;
+CLOSE emp_cursor;
+ END;
+/ 

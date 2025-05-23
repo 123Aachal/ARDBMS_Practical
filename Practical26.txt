@@ -1,0 +1,67 @@
+
+--Use it if table already exist
+ DROP TABLE Employees;
+ DROP TABLE departments;
+
+--Step 1: Create Tables
+-- Create Employees Table 
+CREATE TABLE employees (
+employee_id NUMBER PRIMARY KEY, 
+employee_name VARCHAR2(100), 
+salary NUMBER(10,2), 
+department_id NUMBER
+);
+-- Create Departments Table 
+CREATE TABLE departments (
+department_id NUMBER PRIMARY KEY,
+ department_name VARCHAR2(100)
+);
+--Step 2: Insert Sample Data
+-- Insert Sample Employees
+INSERT INTO employees VALUES (1, 'Alice', 60000, 101);
+INSERT INTO employees VALUES (2, 'Bob', 55000, 102);
+INSERT INTO employees VALUES (3, 'Charlie', 70000, 101);
+-- Insert Sample Departments
+INSERT INTO departments VALUES (101, 'HR');
+ 
+INSERT INTO departments VALUES (102, 'Finance'); INSERT INTO departments VALUES (103, 'IT');
+ COMMIT;
+
+--Step 3: PL/SQL Program Using Two Cursors
+ DECLARE
+-- Cursor to fetch employee details 
+CURSOR emp_cursor IS
+SELECT employee_id, employee_name, department_id FROM employees;
+-- Cursor to fetch department details 
+CURSOR dept_cursor IS
+SELECT department_id, department_name FROM departments;
+-- Variables to store fetched values
+ v_emp_id employees.employee_id%TYPE;
+v_emp_name employees.employee_name%TYPE; 
+v_emp_dept_id employees.department_id%TYPE; 
+v_dept_id departments.department_id%TYPE; 
+v_dept_name departments.department_name%TYPE;
+BEGIN
+-- Open and fetch from first cursor 
+OPEN emp_cursor;
+LOOP
+FETCH emp_cursor INTO v_emp_id, v_emp_name, v_emp_dept_id; 
+EXIT WHEN emp_cursor%NOTFOUND;
+-- Open and fetch from second cursor 
+OPEN dept_cursor;
+LOOP
+ 
+FETCH dept_cursor INTO v_dept_id, v_dept_name; 
+EXIT WHEN dept_cursor%NOTFOUND;
+-- Match employee department with department table 
+IF v_emp_dept_id = v_dept_id THEN
+DBMS_OUTPUT.PUT_LINE('Employee: ' || v_emp_name || ' (ID: ' || v_emp_id || ') - Department: ' || v_dept_name);
+END IF;
+ END LOOP;
+CLOSE dept_cursor; 
+END LOOP;
+CLOSE emp_cursor;
+ END;
+/
+
+

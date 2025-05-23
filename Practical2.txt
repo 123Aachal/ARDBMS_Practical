@@ -1,0 +1,18 @@
+-- a) Find the detail of the doctor treating patients in Ward No 3 SELECT DOCTOR.Did, DOCTOR.Dname, DOCTOR.DAddress,
+DOCTOR.Qualification FROM DOCTOR
+JOIN ADMMITTEDPATIENT ON DOCTOR.Did = ADMMITTEDPATIENT.Did WHERE ADMMITTEDPATIENT.WardNo = 3;
+
+-- b) Find the details of patients admitted between '2020-03-03' and '2020-05- 25'
+SELECT P.Pcode, P.Pname, P.Padd, P.age, P.gender, P.bloodgroup, P.Pid
+ 
+FROM PATIENTMASTER P
+JOIN ADMMITTEDPATIENT AP ON P.Pcode = AP.Pcode
+WHERE AP.EntryDate BETWEEN TO_DATE('2020-03-03', 'YYYY-MM-DD') AND TO_DATE('2020-05-25', 'YYYY-MM-DD');
+
+-- c) Find the details of patients diagnosed with 'Blood Cancer'
+SELECT P.Pcode, P.Pname, P.Padd, P.age, P.gender, P.bloodgroup, P.Pid FROM PATIENTMASTER P
+JOIN ADMMITTEDPATIENT AP ON P.Pcode = AP.Pcode
+WHERE AP.Disease = 'Blood Cancer';
+
+-- d) Retrieve data from DoctorPatientView 
+SELECT * FROM DoctorPatientView;  

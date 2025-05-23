@@ -1,0 +1,15 @@
+DECLARE
+v_input_string VARCHAR2(100) := 'HELLO'; -- Input string to reverse
+ v_reversed_string VARCHAR2(100) := '';
+v_length NUMBER; 
+BEGIN
+v_length := LENGTH(v_input_string);
+-- Loop through the string from the end to the beginning 
+FOR i IN REVERSE 1..v_length LOOP
+v_reversed_string := v_reversed_string || SUBSTR(v_input_string, i, 1); 
+END LOOP;
+-- Display the reversed string 
+DBMS_OUTPUT.PUT_LINE('Original String: ' || v_input_string);
+DBMS_OUTPUT.PUT_LINE('Reversed String: ' || v_reversed_string); 
+END;
+/ 

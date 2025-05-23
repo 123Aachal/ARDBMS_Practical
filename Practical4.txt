@@ -1,0 +1,57 @@
+--Use it when table Already exist
+DROP TABLE DOCTOR CASCADE CONSTRAINTS; DROP TABLE PATIENT;
+
+--Step 1: Create Tables with Integrity Constraints
+-- Creating DOCTOR Table with Constraints 
+CREATE TABLE DOCTOR (
+Did INT PRIMARY KEY,
+Dname VARCHAR(50) NOT NULL,
+ Daddress VARCHAR(100) NOT NULL,
+qualification VARCHAR(50) NOT NULL
+);
+CREATE TABLE PATIENT ( Pid INT PRIMARY KEY,
+ 
+Pname VARCHAR(50) NOT NULL, age INT NOT NULL,
+gender CHAR(1) CHECK (gender IN ('M', 'F')) NOT NULL
+);
+
+
+--Step 2: Insert at Least 10 Records
+--Inserting into DOCTOR Table
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (1, 'Dr. Smith', 'New York', 'MBBS');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (2, 'Dr. Johnson', 'Los Angeles', 'MD');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (3, 'Dr. Brown', 'Chicago', 'M.S');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (4, 'Dr. Williams', 'Houston', 'MBBS');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (5, 'Dr. Taylor', 'San Francisco', 'MD');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (6, 'Dr. Anderson', 'Seattle', 'M.S');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (7, 'Dr. Thomas', 'Boston', 'MBBS');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (8, 'Dr. Jackson', 'Miami', 'MD');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (9, 'Dr. White', 'Denver', 'M.S');
+INSERT INTO DOCTOR (Did, Dname, Daddress, qualification) VALUES (10, 'Dr. Harris', 'Atlanta', 'MBBS');
+--Inserting into PATIENT Table
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (1, 'John Doe', 35, 'M');
+ 
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (2, 'Jane Smith', 28, 'F');
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (3, 'Michael Brown', 42, 'M');
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (4, 'Emily Davis', 22, 'F');
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (5, 'David Wilson', 30, 'M');
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (6, 'Sarah Johnson', 50, 'F');
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (7, 'James Taylor', 18, 'M');
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (8, 'Anna White', 38, 'F');
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (9, 'Robert Anderson', 60, 'M');
+INSERT INTO PATIENT (Pid, Pname, age, gender) VALUES (10, 'Olivia Martinez', 25, 'F');
+
+
+--Step 3: Queries
+--b) Find details of all doctors
+ SELECT * FROM DOCTOR; 
+
+--c) Delete records from DOCTOR where qualification is M.S 
+DELETE FROM DOCTOR WHERE qualification = 'M.S'; 
+
+d) Find details of patients where age is less than 40 
+SELECT * FROM PATIENT WHERE age < 40; 
+
+--e) Update the patient name where patient ID is 5 
+UPDATE PATIENT
+SET Pname = 'David Johnson' WHERE Pid = 5;

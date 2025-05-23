@@ -1,0 +1,23 @@
+
+-- Create or replace the procedure
+CREATE OR REPLACE PROCEDURE Reverse_Number(n IN NUMBER, rev OUT NUMBER) AS
+temp NUMBER := n;
+ remainder NUMBER; 
+result NUMBER := 0;
+BEGIN
+WHILE temp > 0 LOOP
+remainder := MOD(temp, 10); 
+result := result * 10 + remainder;
+ temp := TRUNC(temp / 10);
+END LOOP;
+rev := result;
+END Reverse_Number; -- Ensure you add the procedure name at the END statement
+/
+-- Declare a block to test the procedure DECLARE
+num NUMBER := 12345;
+reversed NUMBER; 
+BEGIN
+Reverse_Number(num, reversed); 
+	DBMS_OUTPUT.PUT_LINE('Reverse of ' || num || ' is ' || reversed);
+END;
+/

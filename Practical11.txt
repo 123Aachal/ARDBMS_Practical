@@ -1,0 +1,17 @@
+-- Create the function
+CREATE OR REPLACE FUNCTION store(num1 IN NUMBER, num2 IN NUMBER) RETURN NUMBER
+IS
+sum_result NUMBER;
+ BEGIN
+sum_result := num1 + num2; 
+RETURN sum_result;
+END;
+/ 
+
+-- Calling the function DECLARE
+result NUMBER; 
+BEGIN
+result := store(5, 7); -- Example values
+ DBMS_OUTPUT.PUT_LINE('The sum is: ' || result);
+END;
+/

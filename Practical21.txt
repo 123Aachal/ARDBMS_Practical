@@ -1,0 +1,27 @@
+DECLARE
+v_text VARCHAR2(100);
+ v_reversed_text VARCHAR2(100);
+BEGIN
+-- Accept input text
+v_text := 'madam'; -- Change this value to test different cases
+
+
+-- Reverse the text using a loop
+ v_reversed_text := '';
+FOR i IN REVERSE 1 .. LENGTH(v_text) LOOP
+v_reversed_text := v_reversed_text || SUBSTR(v_text, i, 1);
+ END LOOP;
+
+-- Display the original and reversed text 
+DBMS_OUTPUT.PUT_LINE('Original Text: ' || v_text);
+ DBMS_OUTPUT.PUT_LINE('Reversed Text: ' || v_reversed_text);
+
+-- Check if it's a palindrome
+IF v_text = v_reversed_text THEN 
+DBMS_OUTPUT.PUT_LINE('The given text is a Palindrome.');
+ELSE
+DBMS_OUTPUT.PUT_LINE('The given text is NOT a Palindrome.'); 
+END IF;
+END;
+ 
+/ 

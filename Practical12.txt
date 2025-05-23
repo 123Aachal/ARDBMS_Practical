@@ -1,0 +1,40 @@
+
+DROP TABLE employees PURGE;
+-- 1. Create the employees table CREATE TABLE employees (
+employee_id NUMBER PRIMARY KEY, 
+employee_name VARCHAR2(100), 
+salary NUMBER(10,2), 
+department_id NUMBER
+);
+
+-- 2. Insert sample data into employees table
+INSERT INTO employees VALUES (1, 'Alice', 5000, 10);
+INSERT INTO employees VALUES (2, 'Bob', 7000, 10);
+INSERT INTO employees VALUES (3, 'Charlie', 6000, 20);
+INSERT INTO employees VALUES (4, 'David', 8000, 20);
+INSERT INTO employees VALUES (5, 'Eve', 5500, 10);
+-- Commit changes COMMIT;
+
+-- 3. Create the function to calculate total salary of a department
+ CREATE OR REPLACE FUNCTION get_total_salary(dept_id IN NUMBER) RETURN NUMBER
+IS
+total_salary NUMBER; 
+BEGIN
+-- Calculate total salary for the given department
+ SELECT SUM(salary) INTO total_salary
+ 
+FROM employees
+WHERE department_id = dept_id;
+RETURN NVL(total_salary, 0); -- Return 0 if no employees found
+ END;
+/ 
+
+-- 5. Call the function and display the result DECLARE
+dept_salary NUMBER;
+dept_id NUMBER := 10; -- Example department ID 
+BEGIN
+dept_salary := get_total_salary(dept_id);
+DBMS_OUTPUT.PUT_LINE('Total Salary for Department ' || dept_id || ' is: '
+|| dept_salary); 
+END;
+/ 

@@ -1,0 +1,52 @@
+
+--Use it if table exist DROP TABLE employees;
+
+-- 1 Create the employees table
+ BEGIN
+EXECUTE IMMEDIATE 'CREATE TABLE employees (
+employee_id NUMBER PRIMARY KEY, 
+employee_name VARCHAR2(100),
+ salary NUMBER(10,2)
+)'; 
+EXCEPTION
+WHEN OTHERS THEN
+IF SQLCODE = -955 THEN
+DBMS_OUTPUT.PUT_LINE('Table already exists.');
+ ELSE
+DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+ END IF;
+END;
+/
+-- 2 Insert sample data (if table is empty)
+ BEGIN
+INSERT INTO employees (employee_id, employee_name, salary) 
+SELECT 101, 'John Doe', 50000 FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM employees WHERE employee_id = 101);
+ 
+INSERT INTO employees (employee_id, employee_name, salary) 
+SELECT 102, 'Jane Smith', 45000 FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM employees WHERE employee_id = 102); 
+COMMIT;
+END;
+/
+-- 3 PL/SQL block to UPDATE salary using Implicit Cursor DECLARE
+v_employee_id NUMBER := 101; -- Change as needed
+ v_new_salary NUMBER := 60000; -- New salary value
+
+BEGIN
+-- Update the salary UPDATE employees
+SET salary = v_new_salary
+WHERE employee_id = v_employee_id;
+
+
+-- Check if the update was successful 
+IF SQL%ROWCOUNT > 0 THEN
+DBMS_OUTPUT.PUT_LINE('Employee salary updated successfully.'); 
+ELSE
+DBMS_OUTPUT.PUT_LINE('No matching employee found.'); 
+END IF;
+END;
+/
+
+--4 Check Update table
+ SELECT * FROM employees; 

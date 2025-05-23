@@ -1,0 +1,13 @@
+
+DECLARE
+v_num NUMBER := 2; -- Starting number
+ BEGIN
+DBMS_OUTPUT.PUT_LINE('Even numbers from 1 to 20:');
+
+
+WHILE v_num <= 20 LOOP
+ DBMS_OUTPUT.PUT_LINE(v_num);
+v_num := v_num + 2; -- Increment by 2 to get the next even number
+ END LOOP;
+END;
+/ 

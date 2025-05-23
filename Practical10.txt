@@ -1,0 +1,41 @@
+--Step 1: Create the Table CREATE TABLE student_course (
+student_id NUMBER PRIMARY KEY, 
+course_name VARCHAR2(100), 
+percentage NUMBER(5,2)
+);
+--Step 2: Insert Sample Data
+INSERT INTO student_course VALUES (1, 'Mathematics', 75); INSERT INTO student_course VALUES (2, 'Mathematics', 65); INSERT INTO student_course VALUES (3, 'Mathematics', 55); INSERT INTO student_course VALUES (4, 'Mathematics', 45); INSERT INTO student_course VALUES (5, 'Physics', 80); INSERT INTO student_course VALUES (6, 'Physics', 70); INSERT INTO student_course VALUES (7, 'Physics', 50); INSERT INTO student_course VALUES (8, 'Physics', 40); COMMIT;
+--Step 3: Create the Procedure
+CREATE OR REPLACE PROCEDURE student_grade_distribution (
+ p_course_name IN VARCHAR2
+) IS
+v_100_70 NUMBER := 0; 
+v_69_60	NUMBER := 0;
+ 
+v_59_50	NUMBER := 0;
+v_below_49 NUMBER := 0; BEGIN
+-- Count students in each percentage range
+SELECT COUNT(*) INTO v_100_70 FROM student_course
+WHERE course_name = p_course_name AND percentage BETWEEN 70 AND 100;
+SELECT COUNT(*) INTO v_69_60 FROM student_course
+WHERE course_name = p_course_name AND percentage BETWEEN 60 AND 69;
+SELECT COUNT(*) INTO v_59_50 FROM student_course
+WHERE course_name = p_course_name AND percentage BETWEEN 50 AND 59;
+SELECT COUNT(*) INTO v_below_49 FROM student_course WHERE course_name = p_course_name AND percentage < 49;
+-- Display the results
+DBMS_OUTPUT.PUT_LINE('Course: ' || p_course_name); DBMS_OUTPUT.PUT_LINE('100-70%: ' || v_100_70); DBMS_OUTPUT.PUT_LINE('69-60%: ' || v_69_60); DBMS_OUTPUT.PUT_LINE('59-50%: ' || v_59_50);
+DBMS_OUTPUT.PUT_LINE('Below 49%: ' || v_below_49);
+ EXCEPTION
+WHEN OTHERS THEN 
+DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END student_grade_distribution;
+/
+Step 4: Execute the Procedure
+ 
+BEGIN
+DBMS_OUTPUT.ENABLE;
+ END;
+/ BEGIN
+student_grade_distribution('Mathematics');
+ END;
+/ 
